@@ -1,10 +1,8 @@
 import sys
-from lru import cache_find
+from cache import access
 
-access_time = 1                                                 # time counter for access
+access_time = 0
 page_fault = 0                                                  # counter for number of times address isn't in cache
-cache = {}                                                      # 16-way cache
-cache_valid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # 16-way cache's valid entries
 counter = 0                                                     # index for cache_valid
 # data structure to represent 16 way cache, add another for the sets
 
@@ -23,8 +21,6 @@ with open(sys.argv[1], 'r') as cache_file:
 
         # address is assumed 64-bit, 6 is offset, # of bits = set index,
         # the rest is the tag
-        page_fault = cache_find(cache, cache_valid, va, page_fault, access_time)
-
-        access_time += 1
-
-print("Cache miss rate:", page_fault/(access_time-1) * 100, "%")
+        page_fault, access_time = access(rw, va)
+print(page_fault, access_time)
+print("Cache miss rate:", page_fault/access_time * 100, "%")
