@@ -1,5 +1,6 @@
 import sys
 from cache import access
+from cache_size import getsize
 
 access_time = 0
 page_fault = 0                                                  # counter for number of times address isn't in cache
@@ -12,6 +13,9 @@ counter = 0                                                     # index for cach
 # if it isn't in the cache, which will have a limited size of 16 ways
 #   then give it an entry
 with open(sys.argv[1], 'r') as cache_file:
+    cs = getsize(cache_file)
+
+
     for line in cache_file:
         x = line.split()
         pc = x[0][:-1]          # program counter (PC), USELESS
@@ -24,3 +28,4 @@ with open(sys.argv[1], 'r') as cache_file:
         page_fault, access_time = access(rw, va)
 print(page_fault, access_time)
 print("Cache miss rate:", page_fault/access_time * 100, "%")
+cache_file.close()

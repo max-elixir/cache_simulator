@@ -1,3 +1,4 @@
+from cache_size import getsize
 # def access(rw, address)
 # determine hit or miss
 #   check if in cache
@@ -13,10 +14,10 @@
 #       update tag
 #       update timestamp
 # keep track of misses to report miss rate
-#               # # of sets
-#               # cache size
-CL_SIZE = 64    # cache line will be 64 bytes
-#               # replacement policy
+
+ways = 16
+CL_SIZE = 64    # cache line will be 64 bytes, always
+cache_size = 0
 
 
 # each entry of a cache or lru queue
