@@ -15,10 +15,6 @@ from cache_size import getsize
 #       update timestamp
 # keep track of misses to report miss rate
 
-ways = 16
-CL_SIZE = 64    # cache line will be 64 bytes, always
-cache_size = 0
-
 
 # each entry of a cache or lru queue
 class CacheEntry:
@@ -29,7 +25,16 @@ class CacheEntry:
         self.timestamp = timestamp
 
 
-cache = []      # 16-way cache
+# test prints for variables - remove later
+print("~~"*11, "Data", "~~"*11)
+ways = 16
+CL_SIZE = 64    # cache line will be 64 bytes, always
+cache_size = getsize()
+print("Ways: ", ways, "- Cache Line Size (B): ", CL_SIZE)
+print("Cache size (KB):", cache_size)
+sets = cache_size / CL_SIZE*ways
+print("Total Sets: ", sets)
+cache = []      # 16-way set associative cache
 queue = []
 page_fault = 0
 access_time = 0

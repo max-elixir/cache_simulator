@@ -1,12 +1,21 @@
 import sys
-
-
 # Determines the size of the cache by hard-coded
 # sizes from project doc
 # might be better to put this in the wrapper
 # BASH script instead of its own class
-def getsize(file):
-    filename = file.name
+# It should inspect the file name and use
+# it to hard-code the cache size
+# driver script will start reading the file,
+# unaffected by this wrapper
+
+file = open(sys.argv[1])
+filename = file.name
+file.close()
+
+
+def getsize():
+    global filename
+    print("Filename: " + filename)
     # 1 KB cache
     if filename == "memory_traces/1KB_64":
         cs = 1024
