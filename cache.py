@@ -40,12 +40,14 @@ page_fault = 0
 access_time = 0
 
 
-def access(rw, va):
+def access(rw, va, at):
     global access_time
     global page_fault
-    access_time += 1
+    at = at + 1
+    access_time = at
     counter = 0
     found = 0
+    dc = str(int(va, 16))  # decimal value of virtual address, USEFUL SOMEHOW?
 
     for entry in cache:
         if counter >= 16:
@@ -60,4 +62,4 @@ def access(rw, va):
         page_fault += 1
         cache.append(CacheEntry(va, 1, "x", access_time))
 
-    return page_fault, access_time
+    return page_fault, at
