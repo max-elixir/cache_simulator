@@ -22,21 +22,26 @@ class CacheEntry:
         self.tag = tag
         self.valid = valid
         self.timestamp = timestamp
+
     def __lt__(self, other):
         return self.timestamp < other.timestamp
 
 
 # test prints for variables - remove later
 print("~~"*11, "Data", "~~"*11)
-ways = 16
-CL_SIZE = 64    # cache line will be 64 bytes, always
-offset_bits = 6      # 64 Byte for CL_Size -> 2^6 for CL_Size -> 6 bits for offset
+ways = 16               # number of entries in LRU
+CL_SIZE = 64            # cache line will be 64 bytes, always
+offset_bits = 5         # 64 Byte for CL_Size -> 2^6 for CL_Size -> 6 bits for offset
 cache_size = getsize()
 sets = int(cache_size / (CL_SIZE*ways))
-set_bits = 1
-
 if sets == 1:
     set_bits = 1
+elif sets == 32:
+    set_bits = 5
+elif sets == 256:
+    set_bits = 8
+elif sets == 4096:
+    set_bits = 12
 
 print("Ways: ", ways, "- Cache Line Size (B): ", CL_SIZE)
 print("Cache size (B):", cache_size)
@@ -54,12 +59,21 @@ def access(rw, va, at):
     access_time = at        # assign to global access-time
     counter = 0             # counter for looping through set
     found = 0               # boolean for finding value in set
+
     dc = str(int(va, 16))   # decimal value of virtual address, USEFUL SOMEHOW?
+    binary_val = bin(int(va, 16))
+    set_num = bin(int(binary_val, 2) >> offset_bits)[-set_bits:]
+    set_num_val = int(set_num, 2)
 
-    binary = bin(int(va, 16))[2:].zfill(8)
-    print("va:", va, "bin:", binary)
+    # va is string, converted to a hex, converted to binary,
+    # removed of its binary indicator at the fron,
+    # filling a full line of 64 characters with 0s
+    #tag = bin(int(va, 16) >> 6)
+    #print(tag, bin(int(va, 16)))
+          #int(bin(int(va, 16))[2:]) & 63)
+    # print(va.rjust(12), dc.rjust(12), binary_val.rjust(12), set_num, set_num_val)
+    # print("va:", va.rjust(5), "val:", dc.rjust(5), "offset:", offset.rjust(5))
 
-    #print("va:", va.rjust(5), "val:", dc.rjust(5), "offset:", offset.rjust(5))
     for entry in cache:
         if counter >= ways:
             break
