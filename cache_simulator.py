@@ -26,7 +26,7 @@ with open(sys.argv[1], 'r') as cache_file:
             x = ""
         except ValueError:
             x = ""
-print("~~"*10, "output", "~~"*10)
-print("page fault:", page_fault, "- Total accesses:",access_time)
+print("~~"*10, "Output", "~~"*10)
+print("page fault:", page_fault, "- Total accesses:", access_time)
 print("Cache miss rate:", page_fault/access_time * 100, "%")
 cache_file.close()
