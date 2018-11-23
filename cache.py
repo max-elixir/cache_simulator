@@ -18,11 +18,12 @@ from cache_size import getsize
 
 # each entry of a cache or lru queue
 class CacheEntry:
-    def __init__(self, tag, valid, data, timestamp):
+    def __init__(self, tag, valid, timestamp):
         self.tag = tag
         self.valid = valid
-        self.data = data
         self.timestamp = timestamp
+    def __lt__(self, other):
+        return self.timestamp < other.timestamp
 
 
 # test prints for variables - remove later
@@ -50,7 +51,7 @@ def access(rw, va, at):
     dc = str(int(va, 16))  # decimal value of virtual address, USEFUL SOMEHOW?
 
     for entry in cache:
-        if counter >= 16:
+        if counter >= ways:
             break
         counter += 1
         if entry.tag == va:
@@ -60,6 +61,6 @@ def access(rw, va, at):
 
     if found == 0:
         page_fault += 1
-        cache.append(CacheEntry(va, 1, "x", access_time))
+        cache.append(CacheEntry(va, 1, access_time))
 
     return page_fault, at
