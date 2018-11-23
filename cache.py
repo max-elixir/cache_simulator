@@ -30,16 +30,10 @@ class CacheEntry:
 print("~~"*11, "Data", "~~"*11)
 ways = 16
 CL_SIZE = 64    # cache line will be 64 bytes, always
-offset_bits = 6      # 64 Byte for CL_Size -> 2^6 for CL_Size -> 6 bits for offset
 cache_size = getsize()
-sets = int(cache_size / (CL_SIZE*ways))
-set_bits = 1
-
-if sets == 1:
-    set_bits = 1
-
 print("Ways: ", ways, "- Cache Line Size (B): ", CL_SIZE)
-print("Cache size (B):", cache_size)
+print("Cache size (KB):", cache_size)
+sets = cache_size / CL_SIZE*ways
 print("Total Sets: ", sets)
 cache = []      # 16-way set associative cache
 queue = []
@@ -47,19 +41,13 @@ page_fault = 0
 access_time = 0
 
 
-def access(rw, va, at):
-    global access_time      # static, global storage of access time
-    global page_fault       # static, global storage of page fault counter
-    at = at + 1             # increment access time passed
-    access_time = at        # assign to global access-time
-    counter = 0             # counter for looping through set
-    found = 0               # boolean for finding value in set
-    dc = str(int(va, 16))   # decimal value of virtual address, USEFUL SOMEHOW?
+def access(rw, va):
+    global access_time
+    global page_fault
+    access_time += 1
+    counter = 0
+    found = 0
 
-    binary = bin(int(va, 16))[2:].zfill(8)
-    print("va:", va, "bin:", binary)
-
-    #print("va:", va.rjust(5), "val:", dc.rjust(5), "offset:", offset.rjust(5))
     for entry in cache:
         if counter >= ways:
             break
@@ -73,4 +61,4 @@ def access(rw, va, at):
         page_fault += 1
         cache.append(CacheEntry(va, 1, access_time))
 
-    return page_fault, at
+    return page_fault, access_time
