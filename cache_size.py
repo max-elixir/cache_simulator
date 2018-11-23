@@ -20,7 +20,7 @@ def getsize():
     if filename == "memory_traces/1KB_64":
         cs = 1024
     # 4 MB cache = 4096 KB cache
-    elif filename == "memory_traces/4MB_4B":
+    elif filename == "memory_traces/4MB_4":
         cs = 4194304
     elif filename == "memory_traces/32MB_4B":
         cs = 4194304
