@@ -50,6 +50,10 @@ cache = []      # 16-way set associative cache
 queue = []
 page_fault = 0
 access_time = 0
+for i in range((sets * 16)):
+    cache.append(CacheEntry(-1, 0, 0))
+print("Cache now has this many entries:", len(cache))
+repeat = 0
 
 
 def access(rw, va, at):
@@ -57,34 +61,59 @@ def access(rw, va, at):
     global page_fault       # static, global storage of page fault counter
     at = at + 1             # increment access time passed
     access_time = at        # assign to global access-time
-    counter = 0             # counter for looping through set
-    found = 0               # boolean for finding value in set
 
-    dc = str(int(va, 16))   # decimal value of virtual address, USEFUL SOMEHOW?
+    tag_here = str(int(va, 16))           # decimal value of virtual address, USEFUL SOMEHOW?
     binary_val = bin(int(va, 16))
     set_num = bin(int(binary_val, 2) >> offset_bits)[-set_bits:]
-    set_num_val = int(set_num, 2)
+    set_num_val = int(set_num, 2)   # Convert virtual address to binary, pull set number out
+    start = (set_num_val * 16)
+    end = start + 16
+    found = 0
 
-    # va is string, converted to a hex, converted to binary,
-    # removed of its binary indicator at the fron,
-    # filling a full line of 64 characters with 0s
-    #tag = bin(int(va, 16) >> 6)
-    #print(tag, bin(int(va, 16)))
-          #int(bin(int(va, 16))[2:]) & 63)
-    # print(va.rjust(12), dc.rjust(12), binary_val.rjust(12), set_num, set_num_val)
-    # print("va:", va.rjust(5), "val:", dc.rjust(5), "offset:", offset.rjust(5))
+    # starting at the beginning of a set, look at the 16-ways
+    # if tag matches, and is valid,
+    # Hit - update access time
+    print("rw:", rw, "va:", va, "Time:", access_time, "set:", set_num_val)
+    for counter in range(start, end):
+        if cache[counter].tag == tag_here:
+            if cache[counter].valid == 1:
+                cache[counter].timestamp = access_time
+                found = 1
+                break
 
-    for entry in cache:
-        if counter >= ways:
-            break
-        counter += 1
-        if entry.tag == va:
-            entry.timestamp = access_time
-            found = 1
-            break
-
+    # Miss - found = 0, so find a spot to put it in
     if found == 0:
         page_fault += 1
-        cache.append(CacheEntry(va, 1, access_time))
+        timestamp_check = access_time           # default timestamp checker is current time, which is the oldest age
+        counter_hold = start     # default spot is first way in set
+
+        # Look through set again to find a spot
+        for counter in range(start, end):
+            if cache[counter].timestamp < timestamp_check:
+                timestamp_check = cache[counter].timestamp
+                counter_hold = counter
+        cache[counter_hold].timestamp = access_time
+        cache[counter_hold].valid = 1
+        cache[counter_hold].tag = tag_here
+
+    # OLD FOR LOOP
+    # print(va.rjust(12), dc.rjust(12), binary_val.rjust(12), set_num, set_num_val)
+    # print("va:", va.rjust(5), "val:", dc.rjust(5), "offset:", offset.rjust(5))
+    # for entry in cache:
+    #    if counter >= ways:
+    #        break
+    #    counter += 1
+    #    if entry.tag == va:
+    #        entry.timestamp = access_time
+    #        found = 1
+    #       break
+    # if found == 0:          # not in set, page fault occurs
+    #    page_fault += 1
+    #    cache.append(CacheEntry(va, 1, access_time))
 
     return page_fault, at
+
+
+def print22():
+    for entry in cache:
+        print(str(entry.tag).rjust(25), str(entry.valid).rjust(2), str(entry.timestamp).rjust(7))
