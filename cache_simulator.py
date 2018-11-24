@@ -2,7 +2,7 @@ import sys
 from cache import access
 
 error = 0
-access_time = 0
+access_time = 1
 page_fault = 0                                                  # counter for number of times address isn't in cache
 counter = 0                                                     # index for cache_valid
 
@@ -28,6 +28,6 @@ with open(sys.argv[1], 'r') as cache_file:
             error += 1
 # print("~~"*10, "Output", "~~"*10)
 # print("page fault:", page_fault, "- Total accesses:", access_time)
-print("Cache miss rate:", page_fault/access_time * 100, "%")
+print("Cache miss rate: {:0%}".format( page_fault/access_time ))
 cache_file.close()
 # print22()

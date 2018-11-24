@@ -50,7 +50,7 @@ cache = []      # 16-way set associative cache
 page_fault = 0
 access_time = 0
 for i in range((sets * 16)):
-    cache.append(CacheEntry(-1, 0, 0))
+    cache.append(CacheEntry("x", 0, 0))
 # print("Cache now has this many entries:", len(cache))
 
 
