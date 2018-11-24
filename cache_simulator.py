@@ -2,7 +2,7 @@ import sys
 from cache import access
 
 error = 0
-access_time = 1
+access_time = 0
 page_fault = 0                                                  # counter for number of times address isn't in cache
 counter = 0                                                     # index for cache_valid
 
