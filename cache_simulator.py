@@ -1,5 +1,5 @@
 import sys
-from cache import access, print22
+from cache import access
 
 error = 0
 access_time = 0
@@ -26,10 +26,8 @@ with open(sys.argv[1], 'r') as cache_file:
             error += 1
         except ValueError:
             error += 1
-print("~~"*10, "Output", "~~"*10)
-print("page fault:", page_fault, "- Total accesses:", access_time)
-if access_time == 0:
-    access_time = 1
+# print("~~"*10, "Output", "~~"*10)
+# print("page fault:", page_fault, "- Total accesses:", access_time)
 print("Cache miss rate:", page_fault/access_time * 100, "%")
 cache_file.close()
 # print22()
