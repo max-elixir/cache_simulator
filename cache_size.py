@@ -15,7 +15,7 @@ file.close()
 
 def getsize():
     global filename
-    print("Filename: " + filename)
+    # print("Filename: " + filename)
     # 1 KB cache
     if filename == "memory_traces/1KB_64":
         cs = 1024
