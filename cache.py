@@ -73,7 +73,7 @@ def access(rw, va, at):
     # starting at the beginning of a set, look at the 16-ways
     # if tag matches, and is valid,
     # Hit - update access time
-    print("rw:", rw, "va:", va, "Time:", access_time, "set:", set_num_val)
+    # print("rw:", rw, "va:", va, "Time:", access_time, "set:", set_num_val)
     for counter in range(start, end):
         if cache[counter].tag == tag_here:
             if cache[counter].valid == 1:

@@ -21,8 +21,6 @@ with open(sys.argv[1], 'r') as cache_file:
             dc = str(int(va, 16))   # decimal value of virtual address, USEFUL SOMEHOW?
             # address is assumed 64-bit, 6 is offset, # of bits = set index,
             # the rest is the tag
-            if rw == "w":
-                print("oooh we WRITING now, oh SHIT")
             page_fault, access_time = access(rw, va, access_time)
         except IndexError:
             error += 1
