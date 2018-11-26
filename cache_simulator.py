@@ -15,7 +15,6 @@ with open(sys.argv[1], 'r') as cache_file:
     for line in cache_file:
         try:
             x = line.split()
-            pc = x[0][:-1]          # program counter (PC), USELESS
             rw = x[1]               # read/write instruction, USEFUL FOR A WRITE BACK-POLICY
             va = x[2]               # virtual address, CONVERT TO INTEGER
             dc = str(int(va, 16))   # decimal value of virtual address, USEFUL SOMEHOW?

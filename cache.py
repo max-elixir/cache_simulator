@@ -73,7 +73,6 @@ def access(rw, va, at):
     # starting at the beginning of a set, look at the 16-ways
     # if tag matches, and is valid,
     # Hit - update access time
-    # print("rw:", rw, "va:", va, "Time:", access_time, "set:", set_num_val)
     for counter in range(start, end):
         if cache[counter].tag == tag_new:
             if cache[counter].valid == 1:
@@ -96,23 +95,4 @@ def access(rw, va, at):
         cache[counter_hold].valid = 1
         cache[counter_hold].tag = tag_new
 
-    # OLD FOR LOOP
-    # print(va.rjust(12), dc.rjust(12), binary_val.rjust(12), set_num, set_num_val)
-    # print("va:", va.rjust(5), "val:", dc.rjust(5), "offset:", offset.rjust(5))
-    # for entry in cache:
-    #    if counter >= ways:
-    #        break
-    #    counter += 1
-    #    if entry.tag == va:
-    #        entry.timestamp = access_time
-    #        found = 1
-    #       break
-    # if found == 0:          # not in set, page fault occurs
-    #    page_fault += 1
-    #    cache.append(CacheEntry(va, 1, access_time))
-
     return page_fault, at
-
-# def print22():
-#    for entry in cache:
-#        print(str(entry.tag).rjust(25), str(entry.valid).rjust(2), str(entry.timestamp).rjust(7))
