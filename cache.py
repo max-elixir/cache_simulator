@@ -17,11 +17,29 @@ offset_bits = 6         # 64 Byte for CL_Size -> 2^6 for CL_Size -> 6 bits for o
 cache_size = getsize()
 sets = int(cache_size / (CL_SIZE*ways))
 if sets == 1:
+    set_bits = 0
+elif sets == 2:
     set_bits = 1
+elif sets == 4:
+    set_bits = 2
+elif sets == 8:
+    set_bits = 3
+elif sets == 16:
+    set_bits = 4
 elif sets == 32:
     set_bits = 5
+elif sets == 64:
+    set_bits = 6
+elif sets == 128:
+    set_bits = 7
 elif sets == 256:
     set_bits = 8
+elif sets == 512:
+    set_bits = 9
+elif sets == 1024:
+    set_bits = 10
+elif sets == 2048:
+    set_bits = 11
 elif sets == 4096:
     set_bits = 12
 
@@ -31,7 +49,7 @@ elif sets == 4096:
 cache = []      # 16-way set associative cache
 page_fault = 0
 access_time = 0
-for i in range((sets * 16)):
+for i in range((sets * ways)):
     cache.append(CacheEntry("x", 0, 0))
 # print("Cache now has this many entries:", len(cache))
 
