@@ -26,8 +26,6 @@ class CacheEntry:
     def __lt__(self, other):
         return self.timestamp < other.timestamp
 
-
-# test prints for variables - remove later
 # print("~~"*11, "Data", "~~"*11)
 ways = 16               # number of entries in LRU
 CL_SIZE = 64            # cache line will be 64 bytes, always
