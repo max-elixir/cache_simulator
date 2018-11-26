@@ -1,3 +1,4 @@
+import numpy
 from cache_size import getsize
 
 # each entry of a cache or lru queue
@@ -16,32 +17,11 @@ CL_SIZE = 64            # cache line will be 64 bytes, always
 offset_bits = 6         # 64 Byte for CL_Size -> 2^6 for CL_Size -> 6 bits for offset
 cache_size = getsize()
 sets = int(cache_size / (CL_SIZE*ways))
+    
+set_bits = int(numpy.log2(sets))
+
 if sets == 1:
     set_bits = 0
-elif sets == 2:
-    set_bits = 1
-elif sets == 4:
-    set_bits = 2
-elif sets == 8:
-    set_bits = 3
-elif sets == 16:
-    set_bits = 4
-elif sets == 32:
-    set_bits = 5
-elif sets == 64:
-    set_bits = 6
-elif sets == 128:
-    set_bits = 7
-elif sets == 256:
-    set_bits = 8
-elif sets == 512:
-    set_bits = 9
-elif sets == 1024:
-    set_bits = 10
-elif sets == 2048:
-    set_bits = 11
-elif sets == 4096:
-    set_bits = 12
 
 # print("Ways: ", ways, "- Cache Line Size (B): ", CL_SIZE)
 # print("Cache size (B):", cache_size)
