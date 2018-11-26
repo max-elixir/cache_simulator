@@ -28,6 +28,6 @@ with open(sys.argv[1], 'r') as cache_file:
             error += 1
 # print("~~"*10, "Output", "~~"*10)
 # print("page fault:", page_fault, "- Total accesses:", access_time)
-print("Cache miss rate: {:0%}".format( page_fault/access_time ))
+print("Cache miss rate: {:0.2%}".format( page_fault/access_time ))
 cache_file.close()
 # print22()
