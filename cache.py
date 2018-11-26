@@ -1,20 +1,4 @@
 from cache_size import getsize
-# def access(rw, address)
-# determine hit or miss
-#   check if in cache
-#   cut the bits to find the set id and offset in cache
-#   search in set: tag comparison
-# do hit or miss process
-#   ***if hit, update access/age/timestamp/at/access_time of Hit_CL
-#   queue uses time_stamp, can use tag or id
-#   ***if miss, find slot.
-#   use an empty way, if there is one, or use an lru
-#   update the slot
-#       set valid bit to 1
-#       update tag
-#       update timestamp
-# keep track of misses to report miss rate
-
 
 # each entry of a cache or lru queue
 class CacheEntry:
@@ -52,6 +36,21 @@ for i in range((sets * 16)):
 # print("Cache now has this many entries:", len(cache))
 
 
+# def access(rw, va, at)
+# determine hit or miss
+#   check if in cache
+#   cut the bits to find the set id and offset in cache
+#   search in set: tag comparison
+# do hit or miss process
+#   ***if hit, update access/age/timestamp/at/access_time of Hit_CL
+#   queue uses time_stamp, can use tag or id
+#   ***if miss, find slot.
+#   use an empty way, if there is one, or use an lru
+#   update the slot
+#       set valid bit to 1
+#       update tag
+#       update timestamp
+# keep track of misses to report miss rate
 def access(rw, va, at):
     global access_time      # static, global storage of access time
     global page_fault       # static, global storage of page fault counter
