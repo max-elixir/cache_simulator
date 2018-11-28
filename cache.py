@@ -21,7 +21,7 @@ sets = int(cache_size / (CL_SIZE*ways))
 set_bits = int(numpy.log2(sets))
 
 if sets == 1:
-    set_bits = 0
+    set_bits = 1
 
 # print("Ways: ", ways, "- Cache Line Size (B): ", CL_SIZE)
 # print("Cache size (B):", cache_size)
@@ -55,7 +55,6 @@ def access(rw, va, at):
     at = at + 1             # increment access time passed
     access_time = at        # assign to global access-time
 
-    # tag_here = str(int(va, 16))           # decimal value of virtual address, USEFUL SOMEHOW?
     binary_val = bin(int(va, 16))
     set_num = bin(int(binary_val, 2) >> offset_bits)[-set_bits:]
     set_num_val = int(set_num, 2)   # Convert virtual address to binary, pull set number out
@@ -64,7 +63,6 @@ def access(rw, va, at):
     found = 0
 
     tag_new = bin(int(binary_val, 2) >> (offset_bits + set_bits))
-    # print(int(tag_new, 2))
     # starting at the beginning of a set, look at the 16-ways
     # if tag matches, and is valid,
     # Hit - update access time
